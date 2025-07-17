@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import Logo from "./Logo";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,9 +23,7 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <Link to="/" className="text-2xl font-bold text-hemut-navy">
-              Hemut
-            </Link>
+            <Logo />
           </div>
 
           {/* Desktop Navigation */}
@@ -36,8 +35,8 @@ const Navigation = () => {
                   to={item.href}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     isActive(item.href)
-                      ? "text-hemut-navy bg-hemut-gray-light"
-                      : "text-hemut-gray hover:text-hemut-navy hover:bg-hemut-gray-light/50"
+                      ? "text-primary bg-primary/10"
+                      : "text-foreground/80 hover:text-foreground hover:bg-accent/10"
                   }`}
                 >
                   {item.name}
@@ -47,7 +46,7 @@ const Navigation = () => {
           </div>
 
           <div className="hidden md:block">
-            <Button variant="cta" asChild>
+            <Button variant="default" asChild>
               <Link to="/contact">Book a Demo</Link>
             </Button>
           </div>
@@ -74,8 +73,8 @@ const Navigation = () => {
                   to={item.href}
                   className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
                     isActive(item.href)
-                      ? "text-hemut-navy bg-hemut-gray-light"
-                      : "text-hemut-gray hover:text-hemut-navy hover:bg-hemut-gray-light/50"
+                      ? "text-primary bg-primary/10"
+                      : "text-foreground/80 hover:text-foreground hover:bg-accent/10"
                   }`}
                   onClick={() => setIsOpen(false)}
                 >
@@ -83,7 +82,7 @@ const Navigation = () => {
                 </Link>
               ))}
               <div className="pt-4">
-                <Button variant="cta" className="w-full" asChild>
+                <Button variant="default" className="w-full" asChild>
                   <Link to="/contact" onClick={() => setIsOpen(false)}>
                     Book a Demo
                   </Link>

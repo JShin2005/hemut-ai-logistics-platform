@@ -10,11 +10,39 @@ import {
   TrendingUp,
   CheckCircle
 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const UseCases = () => {
+  const [animatedElements, setAnimatedElements] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const elementId = entry.target.getAttribute('data-animate-id');
+            if (elementId && !animatedElements.has(elementId)) {
+              setAnimatedElements(prev => new Set(prev).add(elementId));
+              entry.target.classList.add('animate-in');
+            }
+          }
+        });
+      },
+      { 
+        threshold: 0.1, 
+        rootMargin: '0px 0px -50px 0px' 
+      }
+    );
+
+    const elements = document.querySelectorAll('[data-animate-id]');
+    elements.forEach((element) => observer.observe(element));
+
+    return () => observer.disconnect();
+  }, [animatedElements]);
+
   const userTypes = [
     {
-      icon: <Users className="h-8 w-8 text-hemut-navy" />,
+      icon: <Users className="h-8 w-8 text-primary" />,
       title: "Dispatchers",
       subtitle: "Streamline daily operations",
       description: "Focus on strategic decisions while AI handles routine negotiations and load management",
@@ -31,7 +59,7 @@ const UseCases = () => {
       ]
     },
     {
-      icon: <Settings className="h-8 w-8 text-hemut-navy" />,
+      icon: <Settings className="h-8 w-8 text-primary" />,
       title: "Operations Managers",
       subtitle: "Optimize fleet performance",
       description: "Gain complete visibility into operations with AI-powered insights and automated reporting",
@@ -48,7 +76,7 @@ const UseCases = () => {
       ]
     },
     {
-      icon: <Handshake className="h-8 w-8 text-hemut-navy" />,
+      icon: <Handshake className="h-8 w-8 text-primary" />,
       title: "Freight Brokers",
       subtitle: "Scale negotiations efficiently",
       description: "Handle more negotiations simultaneously while maintaining relationship quality",
@@ -111,7 +139,7 @@ const UseCases = () => {
             <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
               How Leading Fleets Use Hemut
             </h1>
-            <p className="text-xl text-hemut-gray mb-8">
+            <p className="text-xl text-muted-foreground mb-8">
               Discover how different roles in your organization benefit from AI-powered logistics automation
             </p>
           </div>
@@ -125,7 +153,7 @@ const UseCases = () => {
             <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
               Built for Every Role in Your Organization
             </h2>
-            <p className="text-xl text-hemut-gray max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Hemut adapts to different workflows and responsibilities within your logistics operation
             </p>
           </div>
@@ -138,10 +166,10 @@ const UseCases = () => {
                     {userType.icon}
                     <div>
                       <h3 className="text-2xl font-bold text-foreground">{userType.title}</h3>
-                      <p className="text-hemut-gray">{userType.subtitle}</p>
+                      <p className="text-muted-foreground">{userType.subtitle}</p>
                     </div>
                   </div>
-                  <p className="text-lg text-hemut-gray leading-relaxed">
+                  <p className="text-lg text-muted-foreground leading-relaxed">
                     {userType.description}
                   </p>
                   
@@ -150,7 +178,7 @@ const UseCases = () => {
                     <div className="space-y-2">
                       {userType.workflow.map((step, stepIndex) => (
                         <div key={stepIndex} className="flex items-start space-x-3">
-                          <div className="bg-hemut-navy text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-semibold mt-0.5">
+                          <div className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-sm font-semibold mt-0.5">
                             {stepIndex + 1}
                           </div>
                           <span className="text-foreground">{step}</span>
@@ -160,17 +188,21 @@ const UseCases = () => {
                   </div>
                 </div>
 
-                <Card className="border-border shadow-elegant">
+                <Card 
+                  data-animate-id={`user-type-${index}`}
+                  className="border-border shadow-elegant transition-all duration-600 ease-out opacity-0 translate-y-8 hover:shadow-elegant"
+                  style={{ transitionDelay: `${index * 100}ms` }}
+                >
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
-                      <TrendingUp className="h-5 w-5 text-hemut-navy" />
+                      <TrendingUp className="h-5 w-5 text-primary" />
                       <span>Key Benefits</span>
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {userType.benefits.map((benefit, benefitIndex) => (
                       <div key={benefitIndex} className="flex items-start space-x-3">
-                        <CheckCircle className="h-5 w-5 text-hemut-navy flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                         <span className="text-foreground">{benefit}</span>
                       </div>
                     ))}
@@ -183,39 +215,43 @@ const UseCases = () => {
       </section>
 
       {/* Day in the Life Scenarios */}
-      <section className="py-20 bg-hemut-gray-light">
+      <section className="py-20 bg-secondary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
               A Day in the Life with Hemut
             </h2>
-            <p className="text-xl text-hemut-gray max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               See how AI transforms typical logistics workflows throughout the day
             </p>
           </div>
 
           <div className="space-y-8">
             {scenarios.map((scenario, index) => (
-              <Card key={index} className="border-border">
+              <Card 
+                key={index} 
+                data-animate-id={`scenario-${index}`}
+                className="border-border transition-all duration-600 ease-out opacity-0 translate-y-8 hover:shadow-elegant"
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
                 <CardContent className="p-8">
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                    <div className="text-center lg:text-left">
-                      <div className="flex items-center justify-center lg:justify-start space-x-3 mb-4">
-                        <Clock className="h-6 w-6 text-hemut-navy" />
-                        <span className="text-2xl font-bold text-hemut-navy">{scenario.time}</span>
-                      </div>
-                      <h3 className="text-xl font-semibold text-foreground mb-2">{scenario.title}</h3>
-                      <p className="text-hemut-gray">{scenario.description}</p>
+                  <div className="flex items-start space-x-6">
+                    <div className="bg-primary text-primary-foreground rounded-lg p-4 flex-shrink-0">
+                      <Clock className="h-6 w-6" />
                     </div>
-                    
-                    <div className="lg:col-span-2">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-4 mb-4">
+                        <h3 className="text-xl font-semibold text-foreground">{scenario.title}</h3>
+                        <span className="text-primary font-semibold">{scenario.time}</span>
+                      </div>
+                      <p className="text-muted-foreground mb-6">{scenario.description}</p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {scenario.steps.map((step, stepIndex) => (
-                          <div key={stepIndex} className="flex items-start space-x-3 p-4 bg-background rounded-lg">
-                            <div className="bg-hemut-navy text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-semibold mt-0.5">
+                          <div key={stepIndex} className="flex items-start space-x-3">
+                            <div className="bg-secondary text-primary rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold mt-0.5 flex-shrink-0">
                               {stepIndex + 1}
                             </div>
-                            <span className="text-sm text-foreground">{step}</span>
+                            <span className="text-foreground text-sm">{step}</span>
                           </div>
                         ))}
                       </div>
@@ -228,58 +264,35 @@ const UseCases = () => {
         </div>
       </section>
 
-      {/* Integration Section */}
-      <section className="py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Seamless Integration with Your Existing Workflow
-            </h2>
-            <p className="text-lg text-hemut-gray mb-8">
-              Hemut works with your current TMS and doesn't require major operational changes
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div className="space-y-4">
-              <div className="bg-hemut-gray-light rounded-full w-16 h-16 flex items-center justify-center mx-auto">
-                <span className="text-2xl font-bold text-hemut-navy">1</span>
-              </div>
-              <h3 className="text-lg font-semibold text-foreground">Quick Setup</h3>
-              <p className="text-hemut-gray">Connect to your existing systems in under 24 hours</p>
-            </div>
-            <div className="space-y-4">
-              <div className="bg-hemut-gray-light rounded-full w-16 h-16 flex items-center justify-center mx-auto">
-                <span className="text-2xl font-bold text-hemut-navy">2</span>
-              </div>
-              <h3 className="text-lg font-semibold text-foreground">Gradual Adoption</h3>
-              <p className="text-hemut-gray">Start with one feature and expand as your team adapts</p>
-            </div>
-            <div className="space-y-4">
-              <div className="bg-hemut-gray-light rounded-full w-16 h-16 flex items-center justify-center mx-auto">
-                <span className="text-2xl font-bold text-hemut-navy">3</span>
-              </div>
-              <h3 className="text-lg font-semibold text-foreground">Full Automation</h3>
-              <p className="text-hemut-gray">Achieve complete workflow automation within weeks</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="py-20 bg-gradient-primary">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
-            Ready to See Hemut in Your Workflow?
+            Ready to Transform Your Operations?
           </h2>
           <p className="text-xl text-white/90 mb-8">
-            Schedule a personalized demo to see how Hemut fits into your specific operations
+            See how Hemut can streamline your specific workflow and role
           </p>
-          <Button variant="secondary" size="lg" asChild>
-            <Link to="/contact">
-              Book Your Custom Demo <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button 
+              variant="default" 
+              size="lg" 
+              className="transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              asChild
+            >
+              <Link to="/contact">
+                Book Your Demo <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+            <Button 
+              variant="default" 
+              size="lg" 
+              className="transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              asChild
+            >
+              <Link to="/product">Explore Platform</Link>
+            </Button>
+          </div>
         </div>
       </section>
     </div>

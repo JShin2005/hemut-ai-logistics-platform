@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   Calendar,
   Mail,
@@ -15,9 +15,11 @@ import {
   ArrowRight
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 
 const Contact = () => {
   const { toast } = useToast();
+  const [animatedElements, setAnimatedElements] = useState<Set<string>>(new Set());
   const [formData, setFormData] = useState({
     name: "",
     company: "",
@@ -25,6 +27,31 @@ const Contact = () => {
     phone: "",
     message: ""
   });
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const elementId = entry.target.getAttribute('data-animate-id');
+            if (elementId && !animatedElements.has(elementId)) {
+              setAnimatedElements(prev => new Set(prev).add(elementId));
+              entry.target.classList.add('animate-in');
+            }
+          }
+        });
+      },
+      { 
+        threshold: 0.1, 
+        rootMargin: '0px 0px -50px 0px' 
+      }
+    );
+
+    const elements = document.querySelectorAll('[data-animate-id]');
+    elements.forEach((element) => observer.observe(element));
+
+    return () => observer.disconnect();
+  }, [animatedElements]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,17 +83,17 @@ const Contact = () => {
 
   const benefits = [
     {
-      icon: <Calendar className="h-6 w-6 text-hemut-navy" />,
+      icon: <Calendar className="h-6 w-6 text-primary" />,
       title: "30-Minute Demo",
       description: "See Hemut's AI in action with your specific use cases"
     },
     {
-      icon: <Users className="h-6 w-6 text-hemut-navy" />,
+      icon: <Users className="h-6 w-6 text-primary" />,
       title: "Custom Consultation",
       description: "Discuss how Hemut fits into your current operations"
     },
     {
-      icon: <CheckCircle className="h-6 w-6 text-hemut-navy" />,
+      icon: <CheckCircle className="h-6 w-6 text-primary" />,
       title: "ROI Analysis",
       description: "Get a personalized estimate of potential savings and margin improvements"
     }
@@ -74,19 +101,19 @@ const Contact = () => {
 
   const contactInfo = [
     {
-      icon: <Mail className="h-5 w-5 text-hemut-navy" />,
+      icon: <Mail className="h-5 w-5 text-primary" />,
       title: "Email",
       content: "hello@hemut.com",
       description: "For general inquiries and support"
     },
     {
-      icon: <Phone className="h-5 w-5 text-hemut-navy" />,
+      icon: <Phone className="h-5 w-5 text-primary" />,
       title: "Phone",
       content: "+1 (555) 123-4567",
       description: "Monday - Friday, 9 AM - 6 PM EST"
     },
     {
-      icon: <MapPin className="h-5 w-5 text-hemut-navy" />,
+      icon: <MapPin className="h-5 w-5 text-primary" />,
       title: "Location",
       content: "Atlanta, GA",
       description: "Serving fleets across North America"
@@ -102,7 +129,7 @@ const Contact = () => {
             <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
               See Hemut Transform Your Operations
             </h1>
-            <p className="text-xl text-hemut-gray mb-8">
+            <p className="text-xl text-muted-foreground mb-8">
               Book a personalized demo to discover how AI can increase your margins by 20% 
               while reducing manual work by 80%
             </p>
@@ -121,10 +148,15 @@ const Contact = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {benefits.map((benefit, index) => (
-              <div key={index} className="text-center space-y-4">
+              <div 
+                key={index} 
+                data-animate-id={`benefit-${index}`}
+                className="text-center space-y-4 transition-all duration-600 ease-out opacity-0 translate-y-8"
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
                 <div className="flex justify-center">{benefit.icon}</div>
                 <h3 className="text-lg font-semibold text-foreground">{benefit.title}</h3>
-                <p className="text-hemut-gray">{benefit.description}</p>
+                <p className="text-muted-foreground">{benefit.description}</p>
               </div>
             ))}
           </div>
@@ -132,14 +164,17 @@ const Contact = () => {
       </section>
 
       {/* Contact Form */}
-      <section className="py-20 bg-hemut-gray-light">
+      <section className="py-20 bg-secondary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Form */}
-            <Card className="border-border shadow-elegant">
+            <Card 
+              data-animate-id="contact-form"
+              className="border-border shadow-elegant transition-all duration-600 ease-out opacity-0 translate-y-8"
+            >
               <CardHeader>
                 <CardTitle className="text-2xl text-foreground">Book Your Demo</CardTitle>
-                <p className="text-hemut-gray">
+                <p className="text-muted-foreground">
                   Fill out the form below and we'll contact you within 24 hours to schedule your personalized demo.
                 </p>
               </CardHeader>
@@ -199,71 +234,68 @@ const Contact = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="message">Tell us about your operations (optional)</Label>
+                    <Label htmlFor="message">Message</Label>
                     <Textarea
                       id="message"
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
-                      placeholder="Fleet size, current challenges, specific interests..."
+                      placeholder="Tell us about your current logistics challenges and what you hope to achieve with Hemut..."
                       rows={4}
                     />
                   </div>
 
-                  <Button type="submit" variant="cta" size="lg" className="w-full">
-                    Book My Demo <ArrowRight className="ml-2 h-5 w-5" />
+                  <Button 
+                    type="submit" 
+                    size="lg" 
+                    className="w-full transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                  >
+                    Request Demo <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
-
-                  <p className="text-sm text-hemut-gray text-center">
-                    By submitting this form, you agree to receive communications from Hemut. 
-                    We respect your privacy and will never share your information.
-                  </p>
                 </form>
               </CardContent>
             </Card>
 
-            {/* Contact Information */}
+            {/* Contact Info */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-2xl font-bold text-foreground mb-6">
-                  Get in Touch
-                </h2>
-                <p className="text-lg text-hemut-gray mb-8">
-                  Have questions before booking a demo? We're here to help. Reach out through any of these channels.
+                <h2 className="text-2xl font-bold text-foreground mb-6">Get in Touch</h2>
+                <p className="text-muted-foreground mb-8">
+                  Our team is ready to help you understand how Hemut can transform your logistics operations. 
+                  Reach out through any of the channels below.
                 </p>
               </div>
 
               <div className="space-y-6">
                 {contactInfo.map((info, index) => (
-                  <Card key={index} className="border-border">
-                    <CardContent className="p-6">
-                      <div className="flex items-start space-x-4">
-                        <div className="p-2 bg-hemut-gray-light rounded-lg">
-                          {info.icon}
-                        </div>
-                        <div>
-                          <h3 className="font-semibold text-foreground mb-1">{info.title}</h3>
-                          <p className="text-hemut-navy font-medium mb-1">{info.content}</p>
-                          <p className="text-sm text-hemut-gray">{info.description}</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <div 
+                    key={index} 
+                    data-animate-id={`contact-info-${index}`}
+                    className="flex items-start space-x-4 transition-all duration-600 ease-out opacity-0 translate-y-8"
+                    style={{ transitionDelay: `${index * 100}ms` }}
+                  >
+                    <div className="bg-primary text-primary-foreground rounded-lg p-3 flex-shrink-0">
+                      {info.icon}
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground">{info.title}</h3>
+                      <p className="text-primary font-medium">{info.content}</p>
+                      <p className="text-muted-foreground text-sm">{info.description}</p>
+                    </div>
+                  </div>
                 ))}
               </div>
 
-              <Card className="border-hemut-navy bg-hemut-navy/5">
+              <Card className="border-border">
                 <CardContent className="p-6">
-                  <div className="flex items-start space-x-4">
-                    <Clock className="h-6 w-6 text-hemut-navy mt-1" />
-                    <div>
-                      <h3 className="font-semibold text-foreground mb-2">Quick Response Promise</h3>
-                      <p className="text-hemut-gray">
-                        We understand that timing is crucial in logistics. That's why we commit to responding 
-                        to all demo requests within 24 hours, typically much faster.
-                      </p>
-                    </div>
+                  <div className="flex items-center space-x-3 mb-4">
+                    <Clock className="h-5 w-5 text-primary" />
+                    <h3 className="font-semibold text-foreground">Response Time</h3>
                   </div>
+                  <p className="text-muted-foreground text-sm">
+                    We typically respond to demo requests within 2-4 hours during business hours. 
+                    For urgent inquiries, please call us directly.
+                  </p>
                 </CardContent>
               </Card>
             </div>
@@ -271,46 +303,25 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="py-20 bg-background">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Frequently Asked Questions
-            </h2>
-          </div>
-
-          <div className="space-y-6">
-            <Card className="border-border">
-              <CardContent className="p-6">
-                <h3 className="font-semibold text-foreground mb-3">How long does implementation take?</h3>
-                <p className="text-hemut-gray">
-                  Most customers are fully operational within 2-4 weeks. We handle integration with your existing 
-                  systems and provide comprehensive training for your team.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-border">
-              <CardContent className="p-6">
-                <h3 className="font-semibold text-foreground mb-3">Do you integrate with our current TMS?</h3>
-                <p className="text-hemut-gray">
-                  Yes, Hemut is designed to work with most major TMS platforms. During the demo, we'll discuss 
-                  your specific systems and integration requirements.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-border">
-              <CardContent className="p-6">
-                <h3 className="font-semibold text-foreground mb-3">What's the typical ROI timeline?</h3>
-                <p className="text-hemut-gray">
-                  Most customers see positive ROI within 60-90 days, with margin improvements becoming apparent 
-                  in the first month of operation.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-primary">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
+            Ready to See the Future of Logistics?
+          </h2>
+          <p className="text-xl text-white/90 mb-8">
+            Join hundreds of fleets already using AI to increase margins and reduce manual work
+          </p>
+          <Button 
+            variant="default" 
+            size="lg" 
+            className="transition-all duration-300 hover:scale-105 hover:shadow-lg"
+            asChild
+          >
+            <Link to="/product">
+              Learn More About Hemut <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </Button>
         </div>
       </section>
     </div>
