@@ -104,7 +104,10 @@ const Home = () => {
       <section className="bg-[#0a1833] py-12 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-2xl lg:text-4xl font-bold text-white mb-4">
-            A smarter way to run freight
+            <span className="text-white">A </span>
+            <span className="text-[#FFC72C]">Smarter</span>
+            <span className="text-white"> Way to Run </span>
+            <span className="text-[#FFC72C]">Freight</span>
           </h2>
           <p className="text-lg text-gray-300">
             Hemut combines automation, dispatch, and negotiation into one platform, so your logistics team can focus on what matters most: moving freight efficiently and profitably.
@@ -112,111 +115,76 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Value Propositions */}
-      <section className="py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
-              Why Leading Fleets Choose Hemut
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Transform your logistics operations with AI that works around the clock
-            </p>
-          </div>
-          <LogoCarousel />
-          {/* Removed info cards for minimalist layout */}
-        </div>
-      </section>
-
-      {/* Features Overview */}
-      <section className="py-20 bg-secondary">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <div>
-                <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-6">
-                  Complete AI-Powered Logistics Platform
-                </h2>
-                <p className="text-lg text-muted-foreground mb-8">
-                  From load discovery to final delivery, Hemut's AI handles the complex negotiations 
-                  and analysis that traditionally consume hours of your team's time.
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                {features.map((feature, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <CheckCircle className="h-6 w-6 text-primary mt-0.5 flex-shrink-0" />
-                    <span className="text-foreground">{feature}</span>
-                  </div>
-                ))}
-              </div>
-
-              <Button 
-                variant="default" 
-                size="lg" 
-                className="transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                asChild
-              >
-                <Link to="/product">
-                  Explore All Features <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-            </div>
-
-            <div className="grid grid-cols-2 gap-6">
-              <Card 
-                data-animate-id="feature-card-0"
-                className="border-border hover:shadow-elegant transition-all duration-600 ease-out opacity-0 translate-y-8 hover:scale-105"
-                style={{ transitionDelay: '0ms' }}
-              >
-                <CardContent className="p-6 text-center">
-                  <Truck className="h-12 w-12 text-primary mx-auto mb-4 transition-transform duration-300 hover:scale-110" />
-                  <h3 className="font-semibold text-foreground mb-2">Fleet Management</h3>
-                  <p className="text-sm text-muted-foreground">Optimize routes and loads</p>
-                </CardContent>
-              </Card>
-              <Card 
-                data-animate-id="feature-card-1"
-                className="border-border hover:shadow-elegant transition-all duration-600 ease-out opacity-0 translate-y-8 hover:scale-105"
-                style={{ transitionDelay: '100ms' }}
-              >
-                <CardContent className="p-6 text-center">
-                  <BarChart3 className="h-12 w-12 text-primary mx-auto mb-4 transition-transform duration-300 hover:scale-110" />
-                  <h3 className="font-semibold text-foreground mb-2">Analytics</h3>
-                  <p className="text-sm text-muted-foreground">Real-time performance insights</p>
-                </CardContent>
-              </Card>
-              <Card 
-                data-animate-id="feature-card-2"
-                className="border-border hover:shadow-elegant transition-all duration-600 ease-out opacity-0 translate-y-8 hover:scale-105"
-                style={{ transitionDelay: '200ms' }}
-              >
-                <CardContent className="p-6 text-center">
-                  <Bot className="h-12 w-12 text-primary mx-auto mb-4 transition-transform duration-300 hover:scale-110" />
-                  <h3 className="font-semibold text-foreground mb-2">AI Negotiation</h3>
-                  <p className="text-sm text-muted-foreground">Automated broker discussions</p>
-                </CardContent>
-              </Card>
-              <Card 
-                data-animate-id="feature-card-3"
-                className="border-border hover:shadow-elegant transition-all duration-600 ease-out opacity-0 translate-y-8 hover:scale-105"
-                style={{ transitionDelay: '300ms' }}
-              >
-                <CardContent className="p-6 text-center">
-                  <DollarSign className="h-12 w-12 text-primary mx-auto mb-4 transition-transform duration-300 hover:scale-110" />
-                  <h3 className="font-semibold text-foreground mb-2">Cost Analysis</h3>
-                  <p className="text-sm text-muted-foreground">Predictive margin modeling</p>
-                </CardContent>
-              </Card>
+        {/* General Purpose Sections */}
+        <section className="bg-[#101c36] min-h-[500px] flex">
+          <div className="w-1/2 flex items-center justify-center p-12">
+            <div className="max-w-md space-y-6">
+              <h3 className="text-3xl lg:text-4xl font-bold text-white">Built for modern logistics</h3>
+              <p className="text-lg text-gray-300">
+                Hemut simplifies freight management with intelligent automation, giving teams the tools they need to work smarter, move faster, and focus on what matters.
+              </p>
             </div>
           </div>
-        </div>
-      </section>
+          <div className="w-1/2">
+            <img
+              src="https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=800&q=80"
+              alt="Modern Logistics"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </section>
+        <section className="bg-[#0a1833] min-h-[500px] flex">
+          <div className="w-1/2">
+            <img
+              src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80"
+              alt="Efficient Operations"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="w-1/2 flex items-center justify-center p-12">
+            <div className="max-w-md space-y-6">
+              <h3 className="text-3xl lg:text-4xl font-bold text-white">Efficiency at every step</h3>
+              <p className="text-lg text-gray-300">
+                From planning to execution, Hemut helps logistics teams reduce friction, eliminate manual work, and improve outcomes.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section className="bg-[#101c36] min-h-[500px] flex">
+          <div className="w-1/2 flex items-center justify-center p-12">
+            <div className="max-w-md space-y-6">
+              <h3 className="text-3xl lg:text-4xl font-bold text-white">Scale with confidence</h3>
+              <p className="text-lg text-gray-300">
+                Whether you're managing a few trucks or a nationwide fleet, Hemut gives you the clarity and tools to grow your business on your terms.
+              </p>
+            </div>
+          </div>
+          <div className="w-1/2">
+            <img
+              src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=800&q=80"
+              alt="Scalable Fleet"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </section>
 
-      
+        {/* Value Propositions */}
+        <section className="py-20 bg-background">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
+                Built to Connect With the Best
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Transform your logistics operations with AI that works around the clock
+              </p>
+            </div>
+            <LogoCarousel />
+            {/* Removed info cards for minimalist layout */}
+          </div>
+        </section>
 
-      {/* CTA Section */}
+        {/* CTA Section */}
       <section className="py-20 bg-gradient-primary">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
