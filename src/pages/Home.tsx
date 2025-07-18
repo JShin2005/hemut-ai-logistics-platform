@@ -88,70 +88,27 @@ const Home = () => {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-32 bg-gradient-subtle overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <div className={`space-y-2 transition-all duration-700 ease-out ${
-                isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}>
-                <h1 className="text-4xl lg:text-6xl font-bold text-foreground leading-tight">
-                  Win More Freight
-                </h1>
-                <p className="text-lg lg:text-xl text-muted-foreground font-normal">
-                  AI automation for brokers, carriers, and dispatchers
-                </p>
-              </div>
-
-              <div className={`flex flex-col sm:flex-row gap-4 transition-all duration-700 ease-out delay-200 ${
-                isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}>
-                <Button 
-                  variant="default" 
-                  size="lg" 
-                  className="transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                  asChild
-                >
-                  <Link to="/contact">
-                    Book a Demo <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-                <Button 
-                  variant="default" 
-                  size="lg" 
-                  className="transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                  asChild
-                >
-                  <Link to="/product">View Product</Link>
-                </Button>
-              </div>
-
-              {/* Stats */}
-              <div className={`grid grid-cols-2 lg:grid-cols-4 gap-4 pt-8 transition-all duration-700 ease-out delay-300 ${
-                isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}>
-                {stats.map((stat, index) => (
-                  <div key={index} className="text-center">
-                    <div className="text-2xl font-bold text-primary">{stat.number}</div>
-                    <div className="text-sm text-muted-foreground">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className={`relative transition-all duration-700 ease-out delay-100 ${
-              isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}>
-              <div className="relative rounded-2xl overflow-hidden shadow-elegant">
-                <img 
-                  src={heroImage} 
-                  alt="Hemut AI Dashboard" 
-                  className="w-full h-auto"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-              </div>
-            </div>
-          </div>
+      <section className="relative w-full min-h-[50vh] bg-black flex items-center justify-center overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80"
+          alt="Logistics Stock"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-60"
+          draggable={false}
+        />
+        <div className="relative z-10 flex items-center justify-center w-full h-full">
+          <h1 className="text-white text-5xl lg:text-7xl font-extrabold text-center drop-shadow-lg select-none">
+            HEMUT
+          </h1>
+        </div>
+      </section>
+      <section className="bg-[#0a1833] py-12 px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-2xl lg:text-4xl font-bold text-white mb-4">
+            A smarter way to run freight
+          </h2>
+          <p className="text-lg text-gray-300">
+            Hemut combines automation, dispatch, and negotiation into one platform, so your logistics team can focus on what matters most: moving freight efficiently and profitably.
+          </p>
         </div>
       </section>
 
@@ -167,26 +124,7 @@ const Home = () => {
             </p>
           </div>
           <LogoCarousel />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-            {valueProps.map((prop, index) => (
-              <Card 
-                key={index} 
-                data-animate-id={`value-prop-${index}`}
-                className="border-border hover:shadow-elegant transition-all duration-600 ease-out opacity-0 translate-y-8 hover:scale-105"
-                style={{
-                  transitionDelay: `${index * 100}ms`
-                }}
-              >
-                <CardContent className="p-8 text-center space-y-4">
-                  <div className="flex justify-center transition-transform duration-300 hover:scale-110">
-                    {prop.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold text-foreground">{prop.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{prop.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          {/* Removed info cards for minimalist layout */}
         </div>
       </section>
 
