@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import heroImage from "@/assets/hemut-dashboard-hero.jpg";
 import { useEffect, useState, useRef } from "react";
+import LogoCarousel from "@/components/LogoCarousel";
 
 const Home = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -165,8 +166,8 @@ const Home = () => {
               Transform your logistics operations with AI that works around the clock
             </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <LogoCarousel />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
             {valueProps.map((prop, index) => (
               <Card 
                 key={index} 
@@ -275,28 +276,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Trust Section */}
-      <section className="py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Trusted by Leading Logistics Companies
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Join hundreds of fleets already using AI to transform their operations
-            </p>
-          </div>
-
-          {/* Placeholder for partner logos - would typically use actual logos */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center opacity-60">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="bg-secondary rounded-lg p-8 flex items-center justify-center">
-                <span className="text-muted-foreground font-semibold">Partner {i + 1}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-primary">
